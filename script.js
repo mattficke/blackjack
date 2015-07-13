@@ -33,14 +33,21 @@ var deal = function() {
   return card;
 }
 var playerHand = function() {
-  for (var i=0; i<2; i++) {
+  for (var i=1; i<3; i++) {
     var card = deal();
-    console.log(card)
+    $("#dealer .card:nth-child("+i+")").html(card);
   }
-
+}
+var dealerHand = function() {
+  for (var i=1; i<3; i++) {
+    var card = deal();
+    $("#player .card:nth-child("+i+")").html(card);
+  }
 }
 var newGame = function() {
   playerHand();
+  dealerHand();
 }
-
-newGame()
+$(document).ready(function() {
+  newGame();
+});
