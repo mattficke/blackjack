@@ -13,42 +13,26 @@
 
 //When "new game" button is clicked, randomly deal 2 cards face up to player, then one up and one down to dealer.
 var deal = function() {
-  var card;
-  var cardNum = Math.floor(Math.random() * 13 + 1);
-  if (cardNum === 1) {
-    card = 1;
-  }
-  else if (cardNum === 11) {
-    card = 10;
-  }
-  else if (cardNum === 12) {
-    card = 10;
-  }
-  else if (cardNum === 13) {
-    card = 10;
-  }
-  else {
-    card = cardNum;
-  }
+  var card = Math.floor(Math.random() * 52 + 1);
   return card;
 }
 var playerHand = function() {
   var total = 0;
   for (var i=1; i<3; i++) {
-    var card = deal();
-    $("#player .card:nth-child("+i+")").html(card);
+    var card = deal() % 13;
     total += card;
+    console.log(card)
   }
-  $("#player .total").html("Total: " + total);
+  console.log("Player total: " + total)
 }
 var dealerHand = function() {
   var total = 0;
   for (var i=1; i<3; i++) {
-    var card = deal();
-    $("#dealer .card:nth-child("+i+")").html(card);
+    var card = deal() % 13;
     total += card;
+    console.log(card);
   }
-  $("#dealer .total").html("Total: " + total);
+  console.log("Dealer total: " + total);
 }
 var newGame = function(player) {
   playerHand();
