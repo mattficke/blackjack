@@ -32,3 +32,15 @@ var deal = function() {
   }
   return card;
 }
+var playerHand = function() {
+  for (var i=0; i<2; i++) {
+    var card = deal();
+    console.log(card)
+  }
+
+}
+var newGame = function() {
+  playerHand();
+}
+
+newGame()
