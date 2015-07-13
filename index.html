@@ -9,12 +9,14 @@
 </head>
 <body>
 <!-- Dealer's station, cards are 1 up/1 down until end of hand, when downward facing card is flipped   -->
-<div id="dealer">
+<div class="hand" id="dealer">
   <div class="card"></div>
   <div class="card"></div>
+  <p>Dealer</p>
+  <!-- Display value of dealer's hand -->
+  <p class="total"></p>
 </div>
-<!-- Display value of dealer's hand -->
-<div id="dealerTotal"></div>
+
 
 <!-- Hit button -->
 <button>Hit</button>
@@ -22,12 +24,14 @@
 <button>Stay</button>
 
 <!-- Player's station, both cards face up as they're dealt -->
-<div id="player">
+<div class="hand" id="player">
   <div class="card"></div>
   <div class="card"></div>
+  <p>Player</p>
+  <!-- Display current value of player's hand -->
+  <p class="total"></p>
 </div>
-<!-- Display current value of player's hand -->
-<div id="playerTotal"></div>
+
 
 
 

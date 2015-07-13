@@ -16,16 +16,16 @@ var deal = function() {
   var card;
   var cardNum = Math.floor(Math.random() * 13 + 1);
   if (cardNum === 1) {
-    card = "A";
+    card = 1;
   }
   else if (cardNum === 11) {
-    card = "J";
+    card = 10;
   }
   else if (cardNum === 12) {
-    card = "Q";
+    card = 10;
   }
   else if (cardNum === 13) {
-    card = "K";
+    card = 10;
   }
   else {
     card = cardNum;
@@ -33,18 +33,24 @@ var deal = function() {
   return card;
 }
 var playerHand = function() {
-  for (var i=1; i<3; i++) {
-    var card = deal();
-    $("#dealer .card:nth-child("+i+")").html(card);
-  }
-}
-var dealerHand = function() {
+  var total = 0;
   for (var i=1; i<3; i++) {
     var card = deal();
     $("#player .card:nth-child("+i+")").html(card);
+    total += card;
   }
+  $("#player .total").html("Total: " + total);
 }
-var newGame = function() {
+var dealerHand = function() {
+  var total = 0;
+  for (var i=1; i<3; i++) {
+    var card = deal();
+    $("#dealer .card:nth-child("+i+")").html(card);
+    total += card;
+  }
+  $("#dealer .total").html("Total: " + total);
+}
+var newGame = function(player) {
   playerHand();
   dealerHand();
 }
