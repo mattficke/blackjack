@@ -19,6 +19,10 @@ $("#stay").on("click", function() {
   checkStay();
 })
 
+$("#newGame").on("click", function() {
+  newGame();
+})
+
 //pick a random integer between 1 and 52, representing cards in a deck
 var deal = function() {
   var card = Math.floor(Math.random() * 52 + 1);
