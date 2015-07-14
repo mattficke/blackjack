@@ -142,7 +142,7 @@ var checkBlackjack = function() {
   else if (dealerTotal === 21 && playerTotal < 21) {
     console.log("You lose!");
   }
-  console.log("Player total: " + playerTotal);
+  $("#player .total").html("Player total: " + playerTotal);
 }
 //put player's cards and dealer's up card in card divs
 var drawCards = function() {
