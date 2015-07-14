@@ -156,6 +156,7 @@ var drawCards = function() {
 //log the dealer's up card to the console
 //check for blackjack
 var newGame = function() {
+  //reset hands for new game
   playerHand = []
   dealerHand = []
   firstHand(1);
@@ -164,6 +165,3 @@ var newGame = function() {
   checkBlackjack();
   console.log("Dealer card: " + dealerHand[0]);
 }
-
-//Start game
-newGame();
