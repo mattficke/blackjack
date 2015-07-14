@@ -149,6 +149,7 @@ var drawCards = function() {
   $("#player .card").each(function(index, element) {
     $(element).html(playerHand[index])
   })
+  $("#dealer .card:first").html(dealerHand[0]);
 }
 
 //init first deal to player and dealer
