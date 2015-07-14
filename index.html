@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Blackjack</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="script.js"></script>
+
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -19,9 +18,11 @@
 
 
 <!-- Hit button -->
-<button>Hit</button>
+<button id="hit">Hit</button>
 <!-- Stay Button -->
-<button>Stay</button>
+<button id="stay">Stay</button>
+<button id="split">Split</button>
+<button id="double">Double</button>
 
 <!-- Player's station, both cards face up as they're dealt -->
 <div class="hand" id="player">
@@ -41,5 +42,7 @@
 <!-- new game button -->
 <button id="newGame">New Game</button>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
