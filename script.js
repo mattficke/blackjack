@@ -18,7 +18,6 @@ $("#hit").on("click", function() {
   drawCards();
   $("#player .total").text("Player total: " + playerTotal);
 })
-
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   $("#dealer .card").removeClass("hide");
@@ -26,7 +25,11 @@ $("#stay").on("click", function() {
   checkStay();
   //$("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
-
+//double your bet, get exactly one more card
+$("#double").on("click", function() {
+  double();
+})
+//place bet, get new deal
 $("#newGame").on("click", function() {
   $(".hand").empty();
   $(".data").empty();
@@ -90,7 +93,7 @@ var checkPlayerBust = function() {
       $("#dealer .card").removeClass("hide");
       $("#dealer .total").text("Dealer total: " + dealerTotal)
       $("#result").text("Bust!");
-      bank -= bet;
+      bank = bank - bet;
       $("#bankroll .amount").text(bank);
     }
   }
@@ -141,7 +144,7 @@ var checkStay = function() {
     $("#result").text("Push");
   }
   $("#dealer .total").text("Dealer total: " + dealerTotal)
-  $("#bankroll").text(bank);
+  $("#bankroll .amount").text(bank);
 }
 //check if either player or dealer has blackjack after first deal
 var checkBlackjack = function() {
@@ -181,6 +184,14 @@ var drawCards = function() {
   $("#dealer .card").each(function(index, element) {
     $(element).html(dealerHand[index])
   })
+}
+
+//doubles your bet, triggers hit followed by stay
+var double = function() {
+  bet = bet * 2;
+  $("#currentBet .amount").text(bet);
+  $("#hit").trigger("click");
+  $("#stay").trigger("click");
 }
 
 //init first deal to player and dealer
