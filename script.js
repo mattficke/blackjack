@@ -144,6 +144,13 @@ var checkBlackjack = function() {
   }
   console.log("Player total: " + playerTotal);
 }
+//put player's cards and dealer's up card in card divs
+var drawCards = function() {
+  $("#player .card").each(function(index, element) {
+    $(element).html(playerHand[index])
+  })
+}
+
 //init first deal to player and dealer
 //log the dealer's up card to the console
 //check for blackjack
@@ -152,6 +159,7 @@ var newGame = function() {
   dealerHand = []
   firstHand(1);
   firstHand(2);
+  drawCards();
   checkBlackjack();
   console.log("Dealer card: " + dealerHand[0]);
 }
