@@ -6,21 +6,19 @@ var dealerSoftAce = 0
 //Click hit, get another card, check if you busted
 $("#hit").on("click", function() {
   var card = deal()
-  console.log(card);
   playerHand.push(card);
   playerTotal = checkPlayerBust();
   $("#player .total").text("Player total: " + playerTotal);
-  console.log("Dealer is showing: " + dealerHand[0])
 })
 
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   checkStay();
-  $("#dealer .card:nth-child(2)").text(dealerHand[1]);
+  //$("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
 
 $("#newGame").on("click", function() {
-  $(".hand .card .total").empty();
+  $(".data").empty();
   newGame();
 })
 
@@ -31,6 +29,7 @@ var deal = function() {
   if (card === 0 || card === 11 || card === 12) {
     card = 10;
   }
+  console.log(card)
   return card;
 }
 
@@ -44,7 +43,7 @@ var firstHand = function(player) {
         playerSoftAce += 1;
       }
       playerHand.push(card);
-      console.log(card)
+
     }
     else if (player === 2) {
       if (card === 1 && !dealerSoftAce) {
@@ -68,16 +67,9 @@ var checkPlayerBust = function() {
       var ace = playerHand.indexOf(11);
       playerHand[ace] = 1;
       checkPlayerBust();
-      $("#player .total").text("Player total: " + playerTotal);
-    }
-    else {
-      $("#player .total").text("player busts");
-      return "busted";
     }
   }
-  else {
-    return playerTotal;
-  }
+  return playerTotal;
 }
 //player wins if dealer busts
 //returns value of dealer's hand if not busted
@@ -93,36 +85,30 @@ var checkDealerBust = function() {
       dealerHand[ace] = 1;
       checkDealerBust();
     }
-    else {
-      console.log("dealer busts");
-      return;
-    }
   }
-  else {
-    return dealerTotal;
-  }
+  return dealerTotal;
 }
 //dealer hits up to 17
 var checkStay = function() {
+  $("#dealer .card:nth-child(2)").text(dealerHand[1]);
   var dealerTotal = checkDealerBust();
-  console.log("Dealer total: " + dealerTotal);
-  while (dealerTotal < 17) {
+  while (dealerTotal <= 17) {
     var card = deal();
-    console.log(card);
     dealerHand.push(card);
     dealerTotal = checkDealerBust();
   }
   //compare dealer and player scores
   var playerTotal = checkPlayerBust();
   if (dealerTotal > playerTotal) {
-    $("#player .total").text("You lose!");
+    $("#result").text("You lose!");
   }
   else if (dealerTotal < playerTotal) {
-    $("#player .total").text("You win!");
+    $("#result").text("You win!");
   }
   else if (dealerTotal === playerTotal) {
-    $("#player .total").text("Push");
+    $("#result").text("Push");
   }
+  $("#dealer .total").text("Dealer total: " + dealerTotal)
 }
 //check if either player or dealer has blackjack after first deal
 var checkBlackjack = function() {
@@ -136,13 +122,13 @@ var checkBlackjack = function() {
   }
   $("#player .total").text("Player total: " + playerTotal);
   if (playerTotal === 21 && dealerTotal === 21) {
-    $("#player .total").text("Push");
+    $("#result").text("Push");
   }
   else if (playerTotal === 21 && dealerTotal < 21) {
-    $("#player .total").text("Blackjack!");
+    $("#result").text("Blackjack!");
   }
   else if (dealerTotal === 21 && playerTotal < 21) {
-    $("#player .total").text("You lose!");
+    $("#result").text("You lose!");
   }
 }
 //put player's cards and dealer's up card in card divs
@@ -150,7 +136,7 @@ var drawCards = function() {
   $("#player .card").each(function(index, element) {
     $(element).html(playerHand[index])
   })
-  $("#dealer .card:first").html(dealerHand[0]);
+  $("#dealer .card:first").text(dealerHand[0]);
 }
 
 //init first deal to player and dealer
@@ -160,9 +146,10 @@ var newGame = function() {
   //reset hands for new game
   playerHand = []
   dealerHand = []
+  playerSoftAce = 0
+  dealerSoftAce = 0
   firstHand(1);
   firstHand(2);
   drawCards();
   checkBlackjack();
-  console.log("Dealer card: " + dealerHand[0]);
 }

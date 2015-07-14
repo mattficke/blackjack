@@ -8,37 +8,28 @@
 </head>
 <body>
 <!-- Dealer's station, cards are 1 up/1 down until end of hand, when downward facing card is flipped   -->
-<div class="hand" id="dealer">
-  <div class="card"></div>
-  <div class="card"></div>
-  <p>Dealer</p>
-  <!-- Display value of dealer's hand -->
-  <p class="total"></p>
+<div id="dealer">
+  <div class="hand">
+    <div class="card data"></div>
+    <div class="card data"></div>
+  </div>
+  <div class="total data"></div>
 </div>
-
-
-<!-- Hit button -->
-<button id="hit">Hit</button>
-<!-- Stay Button -->
-<button id="stay">Stay</button>
-<button id="split">Split</button>
-<button id="double">Double</button>
-
 <!-- Player's station, both cards face up as they're dealt -->
-<div class="hand" id="player">
-  <div class="card"></div>
-  <div class="card"></div>
-  <p>Player</p>
-  <!-- Display current value of player's hand -->
-  <p class="total"></p>
+<div id="player">
+  <div class="hand">
+    <div class="card data"></div>
+    <div class="card data"></div>
+  </div>
+  <div class="total data"></div>
 </div>
-
-
-
-
-<!-- Message displaying win or lose -->
-<div id="result"></div>
-
+<div id="result" class="data"></div>
+<div id="actions">
+  <button id="hit">Hit</button>
+  <button id="stay">Stay</button>
+  <button id="split">Split</button>
+  <button id="double">Double</button>
+</div>
 <!-- new game button -->
 <button id="newGame">New Game</button>
 
