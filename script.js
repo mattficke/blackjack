@@ -8,9 +8,7 @@ $("#hit").on("click", function() {
   var card = deal()
   playerHand.push(card);
   $("#player .hand").append("<div class='card data'></div>");
-  $("#player .card").each(function(index, element) {
-    $(element).html(playerHand[index])
-  })
+  drawCards();
   playerTotal = checkPlayerBust();
   $("#player .total").text("Player total: " + playerTotal);
 })
@@ -18,9 +16,7 @@ $("#hit").on("click", function() {
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   $("#dealer .card").removeClass("hide");
-  $("#dealer .card").each(function(index, element) {
-    $(element).html(dealerHand[index])
-  })
+  drawCards();
   checkStay();
   //$("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
@@ -61,6 +57,7 @@ var firstHand = function(player) {
       }
       dealerHand.push(card);
       $("#dealer .hand").append("<div class='card data'></div>");
+      $("#dealer .card:nth-child(2)").addClass("hide");
     }
   }
 }
@@ -111,9 +108,7 @@ var checkStay = function() {
     $("#dealer .hand").append("<div class='card data'></div>");
     dealerTotal = checkDealerBust();
   }
-  $("#dealer .card").each(function(index, element) {
-    $(element).html(dealerHand[index])
-  })
+  drawCards();
   //compare dealer and player scores
   var playerTotal = checkPlayerBust();
   if (dealerTotal > 21) {
@@ -162,7 +157,6 @@ var drawCards = function() {
   $("#player .card").each(function(index, element) {
     $(element).html(playerHand[index])
   })
-  $("#dealer .card:nth-child(2)").addClass("hide");
   $("#dealer .card").each(function(index, element) {
     $(element).html(dealerHand[index])
   })
