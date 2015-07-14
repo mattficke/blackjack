@@ -2,7 +2,6 @@ var playerHand = [];
 var dealerHand = [];
 var playerSoftAce = 0
 var dealerSoftAce = 0
-var blackjack = false;
 
 //Click hit, get another card, check if you busted
 $("#hit").on("click", function() {
@@ -10,7 +9,7 @@ $("#hit").on("click", function() {
   console.log(card);
   playerHand.push(card);
   playerTotal = checkPlayerBust();
-  console.log("Player total: " + playerTotal);
+  $("#player .total").text("Player total: " + playerTotal);
   console.log("Dealer is showing: " + dealerHand[0])
 })
 
@@ -68,9 +67,10 @@ var checkPlayerBust = function() {
       var ace = playerHand.indexOf(11);
       playerHand[ace] = 1;
       checkPlayerBust();
+      $("#player .total").text("Player total: " + playerTotal);
     }
     else {
-      console.log("player busts");
+      $("#player .total").text("player busts");
       return "busted";
     }
   }
@@ -114,13 +114,13 @@ var checkStay = function() {
   //compare dealer and player scores
   var playerTotal = checkPlayerBust();
   if (dealerTotal > playerTotal) {
-    console.log("You lose!");
+    $("#player .total").text("You lose!");
   }
   else if (dealerTotal < playerTotal) {
-    console.log("You win!");
+    $("#player .total").text("You win!");
   }
   else if (dealerTotal === playerTotal) {
-    console.log("Push");
+    $("#player .total").text("Push");
   }
 }
 //check if either player or dealer has blackjack after first deal
@@ -133,16 +133,16 @@ var checkBlackjack = function() {
   for (var i=0; i<dealerHand.length; i++) {
     dealerTotal += dealerHand[i];
   }
+  $("#player .total").text("Player total: " + playerTotal);
   if (playerTotal === 21 && dealerTotal === 21) {
-    console.log("push");
+    $("#player .total").text("Push");
   }
   else if (playerTotal === 21 && dealerTotal < 21) {
-    console.log("Blackjack!");
+    $("#player .total").text("Blackjack!");
   }
   else if (dealerTotal === 21 && playerTotal < 21) {
-    console.log("You lose!");
+    $("#player .total").text("You lose!");
   }
-  $("#player .total").html("Player total: " + playerTotal);
 }
 //put player's cards and dealer's up card in card divs
 var drawCards = function() {
