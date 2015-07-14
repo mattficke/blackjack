@@ -29,11 +29,16 @@ $("#stay").on("click", function() {
 $("#double").on("click", function() {
   double();
 })
+//split your hand!
+$("#split").on("click", function() {
+  splitHand();
+})
 //place bet, get new deal
 $("#newGame").on("click", function() {
   $(".hand").empty();
   $(".data").empty();
   $(".inGame").removeClass("hide");
+  $("#split").addClass("hide");
   newGame();
 })
 
@@ -185,7 +190,14 @@ var drawCards = function() {
     $(element).html(dealerHand[index])
   })
 }
-
+var checkSplit = function() {
+  if (playerHand[0] === playerHand[1]) {
+    $("#split").removeClass("hide");
+  }
+  else if (playerHand[0] == 11 && playerHand[1] == 1) {
+    $("#split").removeClass("hide");
+  }
+}
 //doubles your bet, triggers hit followed by stay
 var double = function() {
   bet = bet * 2;
@@ -193,7 +205,23 @@ var double = function() {
   $("#hit").trigger("click");
   $("#stay").trigger("click");
 }
-
+//split hand. card 2 becomes card 1 in hand 2. bet is doubled for second hand, each then plays independently
+var splitHand = function() {
+  var card = playerHand[1];
+  //create new hand
+  $("#player").after("<div id='playerSplit'><div class='hand'></div><div class='totalSplit data'</div></div><div id='resultSplit' class='data'></div>")
+  //remove second card from first hand
+  $("#player .card:nth-child(2)").remove();
+  playerHand.pop()
+  //add that card as the first
+  $("#playerSplit .hand").append("<div class='card data'></div>");
+  playerSplitHand = []
+  playerSplitHand.push(card);
+  //dispaly card
+  $("#playerSplit .card").each(function(index, element) {
+    $(element).html(playerSplitHand[index])
+  })
+}
 //init first deal to player and dealer
 //log the dealer's up card to the console
 //check for blackjack
@@ -209,4 +237,5 @@ var newGame = function() {
   firstHand(2);
   drawCards();
   checkBlackjack();
+  checkSplit();
 }
