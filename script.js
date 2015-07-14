@@ -16,9 +16,11 @@ $("#hit").on("click", function() {
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   checkStay();
+  $("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
 
 $("#newGame").on("click", function() {
+  $(".hand .card .total").empty();
   newGame();
 })
 
@@ -52,7 +54,6 @@ var firstHand = function(player) {
       dealerHand.push(card);
     }
   }
-
 }
 //player loses if busted
 //returns value of player hand if not busted
