@@ -28,13 +28,18 @@ $("#hit").on("click", function() {
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   $("#dealer .card").removeClass("hide");
-  // drawCards();
+  drawCards();
   checkStay();
   //$("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
 //double your bet, get exactly one more card
 $("#double").on("click", function() {
-  double();
+  if (bet > bank) {
+    alert("You don't have enough money to do that");
+  }
+  else {
+    double();
+  }
 })
 //split your hand!
 $("#split").on("click", function() {
@@ -121,6 +126,7 @@ var checkPlayerBust = function() {
     while (playerHand.indexOf(11) > -1) {
       var ace = playerHand.indexOf(11);
       playerHand[ace] = 1;
+      playerSoftAce -= 1;
       playerTotal = 0;
       for (var i=0; i<playerHand.length; i++) {
         playerTotal += playerHand[i];
@@ -145,6 +151,7 @@ var checkDealerBust = function() {
     while (dealerHand.indexOf(11) > -1) {
       var ace = dealerHand.indexOf(11);
       dealerHand[ace] = 1;
+      dealerSoftAce -= 1;
       dealerTotal = 0
       for (var i=0; i<dealerHand.length; i++) {
         dealerTotal += dealerHand[i];
@@ -157,7 +164,7 @@ var checkDealerBust = function() {
 var checkStay = function() {
   var dealerTotal = checkDealerBust();
   var playerTotal = checkPlayerBust();
-  while (dealerTotal <= 17) {
+  while (dealerTotal <= 17 || dealerSoftAce) {
     var card = deal();
     if (card === 1 && !dealerSoftAce && dealerTotal < 11) {
       card = 11;
