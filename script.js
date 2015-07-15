@@ -36,7 +36,12 @@ $("#split").on("click", function() {
   splitHand();
 })
 $("#hint").on("click", function() {
-  getHint();
+  if (playerSoftAce) {
+    getSoftHint();
+  }
+  else {
+    getHint();
+  }
 })
 //place bet, get new deal
 $("#newGame").on("click", function() {
@@ -232,8 +237,57 @@ var endGame = function(playerTotal, dealerTotal) {
   $("#player .total").text("Player total: " + playerTotal);
   $("#bankroll .amount").text(bank);
 }
-var hint = function() {
+var getHint = function() {
   var playerTotal = checkPlayerBust();
+  var dealerCard = dealerHand[0];
+  if (playerTotal >= 17) {
+    alert("Stay");
+  }
+  if (playerTotal < 17 && playerTotal > 12) {
+    if (dealerCard < 7) {
+      alert("Stay");
+    }
+    else {
+      alert("Hit");
+    }
+  }
+  if (playerTotal == 12) {
+    if (dealerCard > 3 && dealerCard < 7) {
+      alert("Stay");
+    }
+    else {
+      alert("Hit");
+    }
+  }
+  if (playerTotal == 11) {
+    if (dealerCard == 11) {
+      alert("Hit");
+    }
+    else {
+      alert("Double if you can, otherwise hit");
+    }
+  }
+  if (playerTotal == 10) {
+    if (dealerCard >= 10) {
+      alert("Hit!");
+    }
+    else {
+      alert("Double if you can, otherwise hit");
+    }
+  }
+  if (playerTotal == 9) {
+    if (dealerCard > 2 && dealerCard < 7) {
+      alert("Double if you can, otherwise hit");
+    }
+    else {
+      alert("Hit!");
+    }
+  }
+  if (playerTotal < 9) {
+    alert("Hit!");
+  }
+
+
 }
 //init first deal to player and dealer
 //log the dealer's up card to the console
