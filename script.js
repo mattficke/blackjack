@@ -363,7 +363,7 @@ var getSoftHint = function() {
       alert("Double if you can, otherwise hit");
     }
   }
-  if (playerTotal == 13 || playerTotal == 15) {
+  if (playerTotal == 13 || playerTotal == 14) {
     if (dealerCard == 5 || dealerCard == 6) {
       alert("Double if you can, otherwise hit");
     }
