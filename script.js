@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $("#bankroll .amount").text(bank);
+  $(".inGame").addClass("hide");
 })
 
 var playerHand = [];
@@ -7,10 +8,11 @@ var dealerHand = [];
 var playerSoftAce = 0;
 var dealerSoftAce = 0;
 var bank = 1000;
-var bet = 25;
+var bet = 0;
 
 //Click hit, get another card, check if you busted
 $("#hit").on("click", function() {
+  $("#double").addClass("hide");
   var card = deal()
   playerHand.push(card);
   $("#player .hand").append("<div class='card data'></div>");
@@ -33,13 +35,23 @@ $("#double").on("click", function() {
 $("#split").on("click", function() {
   splitHand();
 })
+$("#hint").on("click", function() {
+  getHint();
+})
 //place bet, get new deal
 $("#newGame").on("click", function() {
-  $(".hand").empty();
-  $(".data").empty();
-  $(".inGame").removeClass("hide");
-  $("#split").addClass("hide");
-  newGame();
+  var bet = parseInt($("#bet").val())
+  if (bet > bank) {
+    alert("You don't have enough!");
+  }
+  else if (bet) {
+    $(".hand").empty();
+    $(".data").empty();
+    $(".inGame").removeClass("hide");
+    $("#double").removeClass("hide");
+    $("#split").addClass("hide");
+    newGame();
+  }
 })
 
 //pick a random integer between 1 and 52, representing cards in a deck
@@ -95,11 +107,9 @@ var checkPlayerBust = function() {
       }
     }
     if (playerTotal > 21) {
-      $("#dealer .card").removeClass("hide");
-      $("#dealer .total").text("Dealer total: " + dealerTotal)
       $("#result").text("Bust!");
       bank = bank - bet;
-      $("#bankroll .amount").text(bank);
+      endGame(playerTotal, dealerTotal);
     }
   }
   return playerTotal;
@@ -124,6 +134,7 @@ var checkDealerBust = function() {
 //dealer hits up to 17
 var checkStay = function() {
   var dealerTotal = checkDealerBust();
+  var playerTotal = checkPlayerBust();
   while (dealerTotal <= 17) {
     var card = deal();
     dealerHand.push(card);
@@ -132,7 +143,6 @@ var checkStay = function() {
   }
   drawCards();
   //compare dealer and player scores
-  var playerTotal = checkPlayerBust();
   if (dealerTotal > 21) {
     $("#result").text("Dealer busts. You win!");
     bank += bet;
@@ -148,38 +158,27 @@ var checkStay = function() {
   else if (dealerTotal === playerTotal) {
     $("#result").text("Push");
   }
-  $("#dealer .total").text("Dealer total: " + dealerTotal)
-  $("#bankroll .amount").text(bank);
+  endGame(playerTotal, dealerTotal);
 }
 //check if either player or dealer has blackjack after first deal
 var checkBlackjack = function() {
-  var playerTotal = 0;
-  var dealerTotal = 0;
-  for (var i=0; i<playerHand.length; i++) {
-    playerTotal += playerHand[i];
-  }
-  for (var i=0; i<dealerHand.length; i++) {
-    dealerTotal += dealerHand[i];
-  }
-  $("#player .total").text("Player total: " + playerTotal);
+  var playerTotal = checkPlayerBust();
+  var dealerTotal = checkDealerBust();
   if (playerTotal === 21 && dealerTotal === 21) {
-    $("#dealer .card").removeClass("hide");
-    $("#dealer .total").text("Dealer total: " + dealerTotal)
     $("#result").text("Push");
+    endGame(playerTotal, dealerTotal);
   }
   else if (playerTotal === 21 && dealerTotal < 21) {
-    $("#dealer .card").removeClass("hide");
-    $("#dealer .total").text("Dealer total: " + dealerTotal)
     $("#result").text("Blackjack!");
     bank += bet * 1.5;
+    endGame(playerTotal, dealerTotal);
   }
   else if (dealerTotal === 21 && playerTotal < 21) {
-    $("#dealer .card").removeClass("hide");
-    $("#dealer .total").text("Dealer total: " + dealerTotal)
     $("#result").text("You lose!");
     bank -= bet;
+    endGame(playerTotal, dealerTotal);
   }
-  $("#bankroll .amount").text(bank);
+  $("#player .total").text("Player total: " + playerTotal);
 }
 //put player's cards and dealer's up card in card divs
 var drawCards = function() {
@@ -203,7 +202,9 @@ var double = function() {
   bet = bet * 2;
   $("#currentBet .amount").text(bet);
   $("#hit").trigger("click");
-  $("#stay").trigger("click");
+  if (playerTotal <=21) {
+    $("#stay").trigger("click");
+  }
 }
 //split hand. card 2 becomes card 1 in hand 2. bet is doubled for second hand, each then plays independently
 var splitHand = function() {
@@ -221,6 +222,18 @@ var splitHand = function() {
   $("#playerSplit .card").each(function(index, element) {
     $(element).html(playerSplitHand[index])
   })
+  //deal new card to each hand
+  $("#hit").trigger("click");
+}
+var endGame = function(playerTotal, dealerTotal) {
+  $("#dealer .card").removeClass("hide");
+  $(".inGame").addClass("hide");
+  $("#dealer .total").text("Dealer total: " + dealerTotal);
+  $("#player .total").text("Player total: " + playerTotal);
+  $("#bankroll .amount").text(bank);
+}
+var hint = function() {
+  var playerTotal = checkPlayerBust();
 }
 //init first deal to player and dealer
 //log the dealer's up card to the console
