@@ -286,8 +286,48 @@ var getHint = function() {
   if (playerTotal < 9) {
     alert("Hit!");
   }
-
-
+}
+var getSoftHint = function() {
+  var playerTotal = checkPlayerBust();
+  var dealerCard = dealerHand[0];
+  if (playerTotal == 19 || playerTotal == 20) {
+    alert("Stay");
+  }
+  if (playerTotal == 18) {
+    if (dealerCard > 8) {
+      alert("Hit!");
+    }
+    else if (dealerCard == 2 || dealerCard == 8 || dealerCard == 9) {
+      alert("Stay");
+    }
+    else {
+      alert("Double if you can, otherwise stay");
+    }
+  }
+  if (playerTotal == 17) {
+    if (dealerCard > 6 || dealerCard == 2) {
+      alert("Hit!");
+    }
+    else {
+      alert("Double if you can, otherwise hit");
+    }
+  }
+  if (playerTotal == 15 || playerTotal == 16) {
+    if (dealerCard >= 7 || dealerCard <= 3) {
+      alert("Hit!");
+    }
+    else {
+      alert("Double if you can, otherwise hit");
+    }
+  }
+  if (playerTotal == 13 || playerTotal == 15) {
+    if (dealerCard == 5 || dealerCard == 6) {
+      alert("Double if you can, otherwise hit");
+    }
+    else {
+      alert("Hit!");
+    }
+  }
 }
 //init first deal to player and dealer
 //log the dealer's up card to the console
