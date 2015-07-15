@@ -9,11 +9,11 @@ The program creates a new "card" element with a visual reresentation each time a
 The game provides hints on the correct strategy if the "hint" button is clicked.
 
 ##Issues
--The game is drawing from what is in effect an infinite deck. It does not keep track of which cards are remaining.
--The game does not track suit
+- The game is drawing from what is in effect an infinite deck. It does not keep track of which cards are remaining.
+- The game does not track suit
 -The game does not differentiate between cards with a value of 10 (Jack, Queen, King, 10)
--There isn't a successful implementation of splitting yet
--The game does not yet have multi-player support
+- There isn't a successful implementation of splitting yet
+- The game does not yet have multi-player support
 
 
 ##User Stories
