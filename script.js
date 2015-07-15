@@ -113,7 +113,6 @@ var checkPlayerBust = function() {
     }
     if (playerTotal > 21) {
       $("#result").text("Bust!");
-      bank = bank - bet;
       endGame(playerTotal, dealerTotal);
     }
   }
@@ -150,15 +149,14 @@ var checkStay = function() {
   //compare dealer and player scores
   if (dealerTotal > 21) {
     $("#result").text("Dealer busts. You win!");
-    bank += bet;
+    bank += bet * 2;
   }
   else if (dealerTotal > playerTotal) {
     $("#result").text("You lose!");
-    bank -= bet;
   }
   else if (dealerTotal < playerTotal) {
     $("#result").text("You win!");
-    bank += bet;
+    bank += bet * 2;
   }
   else if (dealerTotal === playerTotal) {
     $("#result").text("Push");
@@ -175,12 +173,11 @@ var checkBlackjack = function() {
   }
   else if (playerTotal === 21 && dealerTotal < 21) {
     $("#result").text("Blackjack!");
-    bank += bet * 1.5;
+    bank += bet * 2.5;
     endGame(playerTotal, dealerTotal);
   }
   else if (dealerTotal === 21 && playerTotal < 21) {
     $("#result").text("You lose!");
-    bank -= bet;
     endGame(playerTotal, dealerTotal);
   }
   $("#player .total").text("Player total: " + playerTotal);
@@ -204,6 +201,7 @@ var checkSplit = function() {
 }
 //doubles your bet, triggers hit followed by stay
 var double = function() {
+  bank -= bet;
   bet = bet * 2;
   $("#currentBet .amount").text(bet);
   $("#hit").trigger("click");
@@ -335,6 +333,7 @@ var getSoftHint = function() {
 var newGame = function() {
   //reset hands for new game
   bet = parseInt($("#bet").val());
+  bank -= bet;
   $("#currentBet .amount").text(bet);
   playerHand = []
   dealerHand = []
