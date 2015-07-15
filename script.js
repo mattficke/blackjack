@@ -63,6 +63,7 @@ $("#newGame").on("click", function() {
     $("#split").addClass("hide");
     $("body").removeClass("amazing");
     $("#betBox").addClass("hide");
+    $("#currentBet .dollar").removeClass("hide");
     newGame();
   }
 })
@@ -270,6 +271,7 @@ var endGame = function(playerTotal, dealerTotal) {
   $("#dealer .total").text("Dealer total: " + dealerTotal);
   $("#player .total").text("Player total: " + playerTotal);
   $("#bankroll .amount").text(bank);
+  $("#currentBet .amount").text(bet);
 }
 var getHint = function() {
   var playerTotal = checkPlayerBust();
