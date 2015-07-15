@@ -1,6 +1,5 @@
 $(document).ready(function() {
   $("#bankroll .amount").text(bank);
-  $(".inGame").addClass("hide");
 })
 
 var playerHand = [];
@@ -127,10 +126,13 @@ var checkDealerBust = function() {
   }
   if (dealerTotal > 21) {
     //check if hand contains an Ace=11. Replace with Ace=1 if necessary.
-    if (dealerHand.indexOf(11) > -1) {
+    while (dealerHand.indexOf(11) > -1) {
       var ace = dealerHand.indexOf(11);
       dealerHand[ace] = 1;
-      checkDealerBust();
+      dealerTotal = 0
+      for (var i=0; i<dealerHand.length; i++) {
+        dealerTotal += dealerHand[i];
+      }
     }
   }
   return dealerTotal;
@@ -145,6 +147,7 @@ var checkStay = function() {
     $("#dealer .hand").append("<div class='card data'></div>");
     dealerTotal = checkDealerBust();
   }
+  dealerTotal = checkDealerBust();
   drawCards();
   //compare dealer and player scores
   if (dealerTotal > 21) {
@@ -185,10 +188,20 @@ var checkBlackjack = function() {
 //put player's cards and dealer's up card in card divs
 var drawCards = function() {
   $("#player .card").each(function(index, element) {
-    $(element).html(playerHand[index])
+    if (playerHand[index] == 11 || playerHand[index] == 1) {
+      $(element).text("A");
+    }
+    else {
+      $(element).text(playerHand[index]);
+    }
   })
   $("#dealer .card").each(function(index, element) {
-    $(element).html(dealerHand[index])
+    if (dealerHand[index] == 11 || dealerHand[index] == 1) {
+      $(element).text("A");
+    }
+    else {
+      $(element).text(dealerHand[index])
+    }
   })
 }
 var checkSplit = function() {
@@ -335,6 +348,7 @@ var newGame = function() {
   bet = parseInt($("#bet").val());
   bank -= bet;
   $("#currentBet .amount").text(bet);
+  $("#bankroll .amount").text(bank);
   playerHand = []
   dealerHand = []
   playerSoftAce = 0
