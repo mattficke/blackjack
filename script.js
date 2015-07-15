@@ -13,6 +13,10 @@ var bet = 0;
 $("#hit").on("click", function() {
   $("#double").addClass("hide");
   var card = deal()
+  if (card === 1 && !playerSoftAce) {
+    card = 11;
+    playerSoftAce += 1;
+  }
   playerHand.push(card);
   $("#player .hand").append("<div class='card data'></div>");
   playerTotal = checkPlayerBust();
@@ -143,6 +147,10 @@ var checkStay = function() {
   var playerTotal = checkPlayerBust();
   while (dealerTotal <= 17) {
     var card = deal();
+    if (card === 1 && !dealerSoftAce) {
+      card = 11;
+      dealerSoftAce +=1;
+    }
     dealerHand.push(card);
     $("#dealer .hand").append("<div class='card data'></div>");
     dealerTotal = checkDealerBust();
