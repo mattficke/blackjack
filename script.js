@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $("#bankroll .amount").text(bank);
+  $("#bet").focus();
 })
 
 var playerHand = [];
@@ -12,13 +13,14 @@ var bet = 0;
 //Click hit, get another card, check if you busted
 $("#hit").on("click", function() {
   $("#double").addClass("hide");
+  playerTotal = checkPlayerBust();
   var card = deal()
-  if (card === 1 && !playerSoftAce) {
+  if (card === 1 && !playerSoftAce && playerTotal < 11) {
     card = 11;
     playerSoftAce += 1;
   }
   playerHand.push(card);
-  $("#player .hand").append("<div class='card data'></div>");
+  $("#player .hand").append("<div class='card data'><span class='number'></span><span class='numberTwo'></div>");
   playerTotal = checkPlayerBust();
   drawCards();
   $("#player .total").text("Player total: " + playerTotal);
@@ -26,7 +28,7 @@ $("#hit").on("click", function() {
 //click stay, run dealer logic and comapre final result
 $("#stay").on("click", function() {
   $("#dealer .card").removeClass("hide");
-  drawCards();
+  // drawCards();
   checkStay();
   //$("#dealer .card:nth-child(2)").text(dealerHand[1]);
 })
@@ -36,7 +38,8 @@ $("#double").on("click", function() {
 })
 //split your hand!
 $("#split").on("click", function() {
-  splitHand();
+  alert("Coming soon!");
+  // splitHand();
 })
 $("#hint").on("click", function() {
   if (playerSoftAce) {
@@ -58,7 +61,15 @@ $("#newGame").on("click", function() {
     $(".inGame").removeClass("hide");
     $("#double").removeClass("hide");
     $("#split").addClass("hide");
+    $("body").removeClass("amazing");
+    $("#betBox").addClass("hide");
     newGame();
+  }
+})
+//enter key triggers bet
+$("#bet").keyup(function(event) {
+  if (event.keyCode == 13) {
+    $("#newGame").click();
   }
 })
 
@@ -83,7 +94,7 @@ var firstHand = function(player) {
         playerSoftAce += 1;
       }
       playerHand.push(card);
-      $("#player .hand").append("<div class='card data'></div>");
+      $("#player .hand").append("<div class='card data'><span class='number'></span><span class='numberTwo'></div>");
     }
     else if (player === 2) {
       if (card === 1 && !dealerSoftAce) {
@@ -91,7 +102,7 @@ var firstHand = function(player) {
         dealerSoftAce +=1;
       }
       dealerHand.push(card);
-      $("#dealer .hand").append("<div class='card data'></div>");
+      $("#dealer .hand").append("<div class='card data'><span class='number'></span><span class='numberTwo'></div>");
       $("#dealer .card:nth-child(2)").addClass("hide");
     }
   }
@@ -147,12 +158,12 @@ var checkStay = function() {
   var playerTotal = checkPlayerBust();
   while (dealerTotal <= 17) {
     var card = deal();
-    if (card === 1 && !dealerSoftAce) {
+    if (card === 1 && !dealerSoftAce && dealerTotal < 11) {
       card = 11;
       dealerSoftAce +=1;
     }
     dealerHand.push(card);
-    $("#dealer .hand").append("<div class='card data'></div>");
+    $("#dealer .hand").append("<div class='card data'><span class='number'></span><span class='numberTwo'></span></div>");
     dealerTotal = checkDealerBust();
   }
   dealerTotal = checkDealerBust();
@@ -184,6 +195,7 @@ var checkBlackjack = function() {
   }
   else if (playerTotal === 21 && dealerTotal < 21) {
     $("#result").text("Blackjack!");
+    $("body").addClass("amazing");
     bank += bet * 2.5;
     endGame(playerTotal, dealerTotal);
   }
@@ -197,18 +209,20 @@ var checkBlackjack = function() {
 var drawCards = function() {
   $("#player .card").each(function(index, element) {
     if (playerHand[index] == 11 || playerHand[index] == 1) {
-      $(element).text("A");
+      $(element).children().text("A");
+      // $(element:first-child).text("A");
     }
     else {
-      $(element).text(playerHand[index]);
+      $(element).children().text(playerHand[index]);
+      // $(element:first-child).text(playerHand[index]);
     }
   })
   $("#dealer .card").each(function(index, element) {
     if (dealerHand[index] == 11 || dealerHand[index] == 1) {
-      $(element).text("A");
+      $(element).children().text("A");
     }
     else {
-      $(element).text(dealerHand[index])
+      $(element).children().text(dealerHand[index]);
     }
   })
 }
@@ -231,27 +245,28 @@ var double = function() {
   }
 }
 //split hand. card 2 becomes card 1 in hand 2. bet is doubled for second hand, each then plays independently
-var splitHand = function() {
-  var card = playerHand[1];
-  //create new hand
-  $("#player").after("<div id='playerSplit'><div class='hand'></div><div class='totalSplit data'</div></div><div id='resultSplit' class='data'></div>")
-  //remove second card from first hand
-  $("#player .card:nth-child(2)").remove();
-  playerHand.pop()
-  //add that card as the first
-  $("#playerSplit .hand").append("<div class='card data'></div>");
-  playerSplitHand = []
-  playerSplitHand.push(card);
-  //dispaly card
-  $("#playerSplit .card").each(function(index, element) {
-    $(element).html(playerSplitHand[index])
-  })
-  //deal new card to each hand
-  $("#hit").trigger("click");
-}
+// var splitHand = function() {
+//   var card = playerHand[1];
+//   //create new hand
+//   $("#player").after("<div id='playerSplit'><div class='hand'></div><div class='totalSplit data'</div></div><div id='resultSplit' class='data'></div>")
+//   //remove second card from first hand
+//   $("#player .card:nth-child(2)").remove();
+//   playerHand.pop()
+//   //add that card as the first
+//   $("#playerSplit .hand").append("<div class='card data'></div>");
+//   playerSplitHand = []
+//   playerSplitHand.push(card);
+//   //dispaly card
+//   $("#playerSplit .card").each(function(index, element) {
+//     $(element).html(playerSplitHand[index])
+//   })
+//   //deal new card to each hand
+//   $("#hit").trigger("click");
+// }
 var endGame = function(playerTotal, dealerTotal) {
   $("#dealer .card").removeClass("hide");
   $(".inGame").addClass("hide");
+  $("#betBox").removeClass("hide");
   $("#dealer .total").text("Dealer total: " + dealerTotal);
   $("#player .total").text("Player total: " + playerTotal);
   $("#bankroll .amount").text(bank);
