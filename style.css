@@ -1,0 +1,60 @@
+body {
+  background: green;
+}
+
+body.amazing {
+  background: lemonchiffon;
+}
+
+.card {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid black;
+  height: 140px;
+  width: 100px;
+  background: white;
+  margin: 17px 10px;
+}
+
+.hide {
+  display: none;
+}
+
+.hand {
+  box-sizing: border-box;
+  /*display: inline-block;*/
+  border: 3px solid black;
+  /*margin-right: 50%;*/
+  /*padding:25px;
+  margin: 25px;*/
+  min-width: 700px;
+  min-height: 175px;
+  margin: 20px;
+  margin-left: 25%;
+  margin-right: 25%;
+  float: auto;
+}
+.number {
+  padding: 5px;
+}
+
+.numberTwo {
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+#bank {
+  /*background: red;*/
+}
+
+#actions {
+  display: inline-block;
+}
+
+.inGame {
+  padding: 25px;
+}
